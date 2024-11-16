@@ -423,7 +423,14 @@ ggiplot = function(
    } +
    labs(x = xlab, y = ylab, title = main) + {
    	if (has_groups) {
-   		scale_x_discrete(guide = ggh4x::guide_axis_nested(delim = "___"))
+   		scale_x_discrete(guide = legendry::compose_stack(
+   			"line", "ticks",
+   			legendry::primitive_bracket(key = legendry::key_range_auto("___")),
+   			theme = theme(
+   				legendry.guide.spacing = unit(0, "cm"),
+   				legendry.bracket = element_line(linewidth = 0.5)
+   			)
+   		))
    	}
    } +
    {
@@ -455,11 +462,6 @@ ggiplot = function(
               plot.title = element_text(hjust = 0.5),
               legend.position = "bottom", legend.title = element_blank()
           )
-  }
-
-  if (has_groups) {
-  	gg = gg +
-  		theme(ggh4x.axis.nestline = element_line(linewidth = 0.5))
   }
 
   return(gg)
